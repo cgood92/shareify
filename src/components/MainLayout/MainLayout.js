@@ -22,6 +22,9 @@ class MainLayout extends React.Component {
         <main>
           {this.props.children}
         </main>
+        <footer className="page-footer blue-grey darken-4">
+          <div className="footer-copyright">© 2016</div>
+        </footer>
       </div>
       )
   }
