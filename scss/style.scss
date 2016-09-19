@@ -1,0 +1,46 @@
+.chat {
+    color: black;
+}
+
+.collectionCard  {
+    display: inline-block;
+    width: calc(25% - 2rem);
+    margin: 1rem !important;
+}
+
+.boardCard  {
+    display: inline-block;
+    width: calc(50% - 2rem);
+    margin: 1rem !important;
+}
+
+.home, .collectionRow {
+    width: 95%;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+    margin: 0 auto;
+}
+
+.chat {
+    &.hidden {
+        .chat__message {
+            transition: all .25s;
+            opacity: 0 !important;
+            height: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: 0 !important;
+        }
+    }
+    &__message {
+        transition: all .25s;
+    }
+}
+
+.card {
+    &__editCont {
+        margin: -2rem -2rem 0 0;
+        padding: 2rem;
+    }
+}
