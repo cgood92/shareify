@@ -47,14 +47,16 @@ var customSassError = function (err) {
 };
 
 gulp.task('default', ['build', 'browsersync-setup', 'watch']);
-gulp.task('build', ['scripts', 'styles']);
+gulp.task('build', ['scripts', 'styles', 'copyHTML']);
 
 gulp.task('browsersync-setup', ['build'], function() {
     var port = process.env.PORT || 4000;
     browserSync({
         open: 'local',
         port: 3000,
-        server: true
+        server: {
+            baseDir: 'dist'
+        },
     });
 });
 
@@ -71,7 +73,7 @@ gulp.task('scripts', function() {
 		.pipe(rename('all.min.js'))
         .pipe(uglify())
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('./dist/'));
+        .pipe(gulp.dest('./dist/assets'));
 });
 
 gulp.task('styles', function() {
@@ -87,11 +89,16 @@ gulp.task('styles', function() {
         }))
         .pipe(minifyCSS())
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('./dist/'))
+        .pipe(gulp.dest('./dist/assets/'))
         .pipe(cssFilter)
         .pipe(browserSync.reload({
             stream: true
         }));
+});
+
+gulp.task('copyHTML', function() {
+   gulp.src('./src/index.html')
+   .pipe(gulp.dest('./dist/'));
 });
 
 gulp.task('watch', function () {
