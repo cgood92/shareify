@@ -26,8 +26,13 @@ class CollectionView extends React.Component {
         if (snapshot.exists()) {
             var collection = snapshot.val();
             this.state.resources = Object.keys(collection).map(function(i){
-                return collection[i];
+                var obj = collection[i];
+                obj.key = i;
+                return obj;
             });
+            this.setState(this.state);
+        } else {
+            this.state.resources = [];
             this.setState(this.state);
         }
     }
@@ -43,9 +48,9 @@ class CollectionView extends React.Component {
     }
 
     render() {
-        var { id, title, resources, collectionId } = this.state;
+        var { id, title, resources } = this.state;
         var resources = resources.map(function(elem, index){
-            return <ResourceCard href={elem.href} key={index}/>;
+            return <ResourceCard href={elem.href} key={elem.key} id={elem.key} collectionId={id}/>;
         });
         return <section className="resourcesView">
             <ul className="collection with-header">

@@ -1,0 +1,12 @@
+.resourcesView {
+	.collection-item {
+		position: relative;
+		.fixed-action-btn {
+			position: absolute !important;
+			top: 3px !important;
+		}
+		.fab-small li {
+			margin-top: 0;
+		}
+	}
+}
