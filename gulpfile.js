@@ -102,6 +102,7 @@ gulp.task('copyHTML', function() {
 });
 
 gulp.task('watch', function () {
+    gulp.watch('./src/index.html', ['copyHTML', browserSync.reload]);
     gulp.watch(['./src/*.js','./src/**/*.js'], ['scripts', browserSync.reload]);
     gulp.watch(['./src/*.scss','./src/**/*.scss'], ['styles']);
 });
