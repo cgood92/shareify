@@ -71,7 +71,7 @@ gulp.task('scripts', function() {
                    path.dirname = '';
                    path.extname = '.min.js';
                 }))
-                //.pipe(uglify())
+                .pipe(uglify())
                 .pipe(sourcemaps.write('./'))
                 .pipe(gulp.dest('./dist/'));
     	});

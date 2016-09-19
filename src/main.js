@@ -1,4 +1,3 @@
-//var { Router, Route, IndexRoute, Link, browserHistory } = ReactRouter;
 import { Router, Route, Link, hashHistory } from 'react-router'
 import React from 'react'
 import { render } from 'react-dom'
