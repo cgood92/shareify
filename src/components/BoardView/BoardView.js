@@ -20,6 +20,9 @@ class BoardView extends React.Component {
                 id: this.state.id
             };
             this.setState(this.state);
+        } else {
+            this.state.collections = [];
+            this.setState(this.state);
         }
     }
 

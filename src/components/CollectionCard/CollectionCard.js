@@ -38,15 +38,28 @@ class CollectionCard extends React.Component {
         myFirebaseRef.child("collections").child(this.state.id).off("value", this.updateFromFB.bind(this));
     }
 
+    remove(e) {
+        // Remove board from DB
+        myFirebaseRef.child("collections").child(this.state.id).remove(function(){
+        });
+    }
+
     render() {
         var { id, boardId, title, author, description } = this.state;
         return (
             <div className="collectionCard card blue-grey darken-1">
                 <div className="card-content white-text">
+                    <span className="right card__editCont activator"><i className="material-icons">more_vert</i></span>
                     <Link to={"/" + boardId + "/" + id}><div className="collectionCard__title card-title grey-text">{title}</div></Link>
                     <div className="collectionCard__author blue-grey-text">Shared by {author}</div>
                     <p className="collectionCard__description">{description}</p>
                     <ChatCard/>
+                </div>
+                <div className="card-reveal">
+                    <span className="card-title grey-text text-darken-4">{title}<i className="material-icons right">close</i></span>
+                    <ul className="editOptions">
+                        <li onClick={this.remove.bind(this)}>Delete<i className="material-icons left">close</i></li>
+                    </ul>
                 </div>
             </div>
         );
