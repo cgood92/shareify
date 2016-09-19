@@ -1,0 +1,16 @@
+.chat {
+    color: black;
+    &.hidden {
+        .chat__message {
+            transition: all .25s;
+            opacity: 0 !important;
+            height: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: 0 !important;
+        }
+    }
+    &__message {
+        transition: all .25s;
+    }
+}
