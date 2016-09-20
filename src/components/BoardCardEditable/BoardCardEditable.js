@@ -25,6 +25,7 @@ class BoardCardEditable extends React.Component {
                 description: ''
             });
             form.reset();
+            elements.item(0).focus();
         });
         e.preventDefault();
         return false;
@@ -37,13 +38,13 @@ class BoardCardEditable extends React.Component {
                 <div className="card-content white-text">
                     <form onSubmit={this.add.bind(this)}>
                         <div className="row">
-                            <div className="input-field col s6">
+                            <div className="input-field col s12">
                                 <input placeholder="Title" id="board_title" type="text" name="title"/>
                                 <label htmlFor="board_title" className="active">Title</label>
                             </div>
                         </div>
                         <div className="row">
-                            <div className="input-field col s6">
+                            <div className="input-field col s12">
                                 <input placeholder="Description" id="board_desc" type="text" name="description"></input>
                                 <label htmlFor="board_desc" className="active">Description</label>
                             </div>
