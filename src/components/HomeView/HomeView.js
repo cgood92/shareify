@@ -36,6 +36,7 @@ class HomeView extends React.Component {
             return <BoardCard id={boardId} key={boardId}/>;
         });
         return <section className="home">
+            <h1 className="title">Boards</h1>
             {boards}
             <BoardCardEditable/>
         </section>;

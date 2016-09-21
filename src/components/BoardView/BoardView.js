@@ -41,6 +41,7 @@ class BoardView extends React.Component {
             return <CollectionCard boardId={this.state.id} id={collection} key={index}/>;
         });
         return <section className="collectionRow">
+            <h1 className="title">{this.state.id}</h1>
             {collections}
             <CollectionCardEditable boardId={this.state.id}/>
         </section>;
