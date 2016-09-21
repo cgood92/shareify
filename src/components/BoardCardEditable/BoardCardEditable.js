@@ -1,5 +1,5 @@
 import React from 'react'
-import { userId, myFirebaseRef } from '../../globals.js'
+import { myFirebaseRef, user } from '../../globals.js'
 
 class BoardCardEditable extends React.Component {
     constructor(props) {
@@ -15,17 +15,19 @@ class BoardCardEditable extends React.Component {
             elements = form.elements,
             title = elements.namedItem("title").value,
             description = elements.namedItem("description").value;
-        myFirebaseRef.child("boards").push({
-            title: title,
-            description: description,
-            user: userId
-        }).then((snapshot) => {
-            this.setState({
-                title: '',
-                description: ''
+        user().then((user) => {
+            myFirebaseRef.child("boards").push({
+                title: title,
+                description: description,
+                user: user.uid
+            }).then((snapshot) => {
+                this.setState({
+                    title: '',
+                    description: ''
+                });
+                form.reset();
+                elements.item(0).focus();
             });
-            form.reset();
-            elements.item(0).focus();
         });
         e.preventDefault();
         return false;

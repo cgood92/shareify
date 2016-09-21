@@ -1,5 +1,5 @@
 import React from 'react'
-import { userId, myFirebaseRef } from '../../globals.js'
+import { myFirebaseRef } from '../../globals.js'
 
 class CollectionCardEditable extends React.Component {
     constructor(props) {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { userId, myFirebaseRef } from '../../globals.js'
+import { myFirebaseRef, myFirebaseAuth, user } from '../../globals.js'
 
 import BoardCard from '../BoardCard/BoardCard.js'
 import BoardCardEditable from '../BoardCardEditable/BoardCardEditable.js'
@@ -24,11 +24,15 @@ class HomeView extends React.Component {
     }
 
     componentDidMount() {
-        myFirebaseRef.child("boards").orderByChild("user").equalTo(userId).on("value", this.updateFromFB.bind(this));
+        user().then((user) => {
+            myFirebaseRef.child("boards").orderByChild("user").equalTo(user.uid).on("value", this.updateFromFB.bind(this));
+        });
     }
 
     componentWillUnmount() {
-        myFirebaseRef.child("boards").orderByChild("user").equalTo(userId).off("value", this.updateFromFB.bind(this));
+        user().then((user) => {
+            myFirebaseRef.child("boards").orderByChild("user").equalTo(user.uid).off("value", this.updateFromFB.bind(this));
+        });
     }
 
     render() {

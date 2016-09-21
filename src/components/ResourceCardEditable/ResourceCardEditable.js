@@ -1,5 +1,5 @@
 import React from 'react'
-import { userId, myFirebaseRef } from '../../globals.js'
+import { myFirebaseRef, user } from '../../globals.js'
 
 class ResourceCardEditable extends React.Component {
     constructor(props) {
@@ -15,14 +15,16 @@ class ResourceCardEditable extends React.Component {
             elements = form.elements,
             href = elements.namedItem("link").value,
             collectionId = this.state.collectionId;
-        var toPush = {
-            href: href,
-            collection: {},
-            user: userId
-        };
-        toPush.collection[collectionId] = collectionId;
-        myFirebaseRef.child("resources").push(toPush).then((snapshot) => {
-            form.reset();
+        user().then(function(user){
+            var toPush = {
+                href: href,
+                collection: {},
+                user: user.uid
+            };
+            toPush.collection[collectionId] = collectionId;
+            myFirebaseRef.child("resources").push(toPush).then((snapshot) => {
+                form.reset();
+            });
         });
         e.preventDefault();
         return false;

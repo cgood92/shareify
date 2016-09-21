@@ -1,5 +1,5 @@
 import React from 'react'
-import { userId, myFirebaseRef } from '../../globals.js'
+import { myFirebaseRef } from '../../globals.js'
 
 import CollectionCard from '../CollectionCard/CollectionCard.js'
 import CollectionCardEditable from '../CollectionCardEditable/CollectionCardEditable.js'
