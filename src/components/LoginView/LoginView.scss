@@ -1,0 +1,25 @@
+.authentication {
+	width: 70%;
+	margin: 0 auto;
+	.login {
+		text-align: center;
+		&__socialButtons {
+			display: inline-block;
+			li {
+				display: inline-block;
+				margin-left: 1rem;
+			}
+		}
+		.form-group {
+			display: inline-block;
+			width: 35%;
+			margin-right: 2rem;
+		}
+		&__button {
+			display: inline-block;
+		}
+		&__other {
+			display: inline-block;
+		}
+	}
+}
