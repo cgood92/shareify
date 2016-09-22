@@ -1,4 +1,7 @@
 .home {
+	&__boards > * {
+		vertical-align: top;
+	}
 	&__loggedOut {
 		padding-top: 2rem;
 	}
