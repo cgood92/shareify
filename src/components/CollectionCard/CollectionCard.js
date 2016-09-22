@@ -52,7 +52,7 @@ class CollectionCard extends React.Component {
             <div className="collectionCard card blue-grey darken-1">
                 <div className="card-content white-text">
                     {(permissionToBoard) ? <span className="right card__editCont activator"><i className="material-icons">more_vert</i></span> : null}
-                    <Link to={"/" + boardId + "/" + id}><div className="collectionCard__title card-title grey-text">{title}</div></Link>
+                    <Link to={"/" + boardId + "/" + id}><div className="collectionCard__title card-title">{title}</div></Link>
                     <p className="collectionCard__description">{description}</p>
                     <ChatCard/>
                 </div>

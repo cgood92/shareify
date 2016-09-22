@@ -1,5 +1,8 @@
 .resourcesView {
 	.collection-item {
+		&:hover {
+			text-decoration: underline;
+		}
 		position: relative;
 		.fixed-action-btn {
 			position: absolute !important;

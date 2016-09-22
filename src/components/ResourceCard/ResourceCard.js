@@ -27,7 +27,7 @@ class ResourceCard extends React.Component {
     render() {
         var { href, id, permissionToBoard } = this.state;
         return <li className="collection-item">
-        <a href={href}>{href}</a>
+        <a href={href} target="_BLANK">{href}</a>
         {(permissionToBoard) ? 
           <div className="fixed-action-btn horizontal">
             <a className="btn-floating blue-grey">
