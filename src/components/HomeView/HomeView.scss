@@ -1,6 +1,9 @@
 .home {
-	&__boards > * {
-		vertical-align: top;
+	&__boards {
+		> * {
+			vertical-align: top;
+		}
+		width: 100%;
 	}
 	&__loggedOut {
 		padding-top: 2rem;
