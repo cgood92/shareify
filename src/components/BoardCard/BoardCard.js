@@ -46,7 +46,7 @@ class BoardCard extends React.Component {
             <div className="boardCard card blue-grey darken-1">
                 <div className="card-content white-text">
                     <span className="right card__editCont activator"><i className="material-icons">more_vert</i></span>
-                    <Link to={"/" + id}><div className="boardCard__title card-title grey-text">{title}</div></Link>
+                    <Link to={"/" + id}><div className="boardCard__title card-title">{title}</div></Link>
                     <p className="boardCard__description">{description}</p>
                     <ChatCard/>
                 </div>
