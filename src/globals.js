@@ -1,5 +1,4 @@
 import Firebase from 'firebase'
-import $ from 'jquery'
 
 function firebaseStuff() {
 	// Initialize Firebase
