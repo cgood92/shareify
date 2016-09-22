@@ -30,7 +30,7 @@ class ResourceCard extends React.Component {
         <a href={href}>{href}</a>
         {(permissionToBoard) ? 
           <div className="fixed-action-btn horizontal">
-            <a className="btn-floating">
+            <a className="btn-floating blue-grey">
               <i className="material-icons">more_vert</i>
             </a>
             <ul className="fab-small">
