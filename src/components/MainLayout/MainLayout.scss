@@ -2,6 +2,10 @@ main {
 	min-height: calc(100vh - (90px + 64px));
 }
 
+.footer-copyright {
+	padding: 0 1rem;
+}
+
 .mainNav {
 	.nav-wrapper {
 		display: flex;
