@@ -28,7 +28,7 @@ class HomeView extends React.Component {
     componentDidMount() {
         user().then((user) => {
             this.state.loggedIn = true;
-            myFirebaseRef.child("boards").orderByChild("user").equalTo(user.uid).on("value", this.updateFromFB.bind(this));
+            myFirebaseRef.child("boards").orderByChild("user/" + user.uid).equalTo(user.uid).on("value", this.updateFromFB.bind(this));
         }).catch(() => {
             this.state.loggedIn = false;
             this.setState(this.state);

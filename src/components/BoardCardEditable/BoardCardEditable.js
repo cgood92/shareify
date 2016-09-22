@@ -16,11 +16,13 @@ class BoardCardEditable extends React.Component {
             title = elements.namedItem("title").value,
             description = elements.namedItem("description").value;
         user().then((user) => {
-            myFirebaseRef.child("boards").push({
+            var toPush = {
                 title: title,
                 description: description,
-                user: user.uid
-            }).then((snapshot) => {
+                user: {}
+            };
+            toPush.user[user.uid] = user.uid;
+            myFirebaseRef.child("boards").push(toPush).then((snapshot) => {
                 this.setState({
                     title: '',
                     description: ''

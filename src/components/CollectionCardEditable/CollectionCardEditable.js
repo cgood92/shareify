@@ -23,10 +23,6 @@ class CollectionCardEditable extends React.Component {
         };
         toPush.board[boardId] = boardId;
         myFirebaseRef.child("collections").push(toPush).then((snapshot) => {
-            this.setState({
-                title: '',
-                description: ''
-            });
             form.reset();
             elements.item(0).focus();
         });
