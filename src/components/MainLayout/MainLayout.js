@@ -104,7 +104,6 @@ class MainLayout extends React.Component {
   render() {
     var { board, collection } = this.state;
     var breadcrumbs = <ul className="hide-on-med-and-down mainNav__breadcrumb">
-      <li><Link to="/">Home</Link></li>
       {board.id ? <li><Link to={"/" + board.id}>{board.title}</Link></li> : null}
       {collection.id ? <li><Link to={"/" + board.id + '/' + collection.id}>{collection.title}</Link></li> : null}
     </ul>;

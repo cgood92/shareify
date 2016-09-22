@@ -3,14 +3,22 @@ main {
 }
 
 .mainNav {
-	li:not(:last-child) a {
-		&:after {
+	.nav-wrapper {
+		display: flex;
+		padding: 0 1rem;
+		.right {
+			margin-left: auto;
+		}
+	}
+	li a {
+		&:before {
 			content: '\25BA';
-			margin-left: 2rem;
+			margin-right: 2rem;
 		}
 	}
 	.brand-logo {
 		position: static !important;
+		margin-right: 1rem;
 	}
 	&__breadcrumb {
 		display: inline-block;
