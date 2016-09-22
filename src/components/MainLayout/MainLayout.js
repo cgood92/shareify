@@ -113,7 +113,7 @@ class MainLayout extends React.Component {
           <div className="nav-wrapper blue-grey darken-4">
               <Link to="/" className="brand-logo">Shareify</Link>
               {breadcrumbs}
-              { (this.state.loggedIn) ? <a className='right' onClick={this.logout.bind(this)}>Logout</a> : <Link to="/login" className="right">Login</Link>}
+              { (this.state.loggedIn) ? <a className='right logout' onClick={this.logout.bind(this)}>Logout</a> : <Link to="/login" className="right">Login</Link>}
           </div>
         </nav>
         <main>
