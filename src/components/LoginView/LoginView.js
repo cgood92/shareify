@@ -1,6 +1,8 @@
 import React from 'react'
 import { myFirebaseRef, myFirebaseAuth, FirebaseLibrary, user } from '../../globals.js'
 
+import { withRouter } from 'react-router'
+
 class LoginView extends React.Component {
 
   constructor(props) {
@@ -20,39 +22,38 @@ class LoginView extends React.Component {
 
     this.handleAuthResponse(thirdPartyPromise);
 
-    e.preventDefault();
     return false;   
   }
 
   thirdPartyLogin(providerName) {
-      var deferred = $.Deferred();
+    return new Promise(function(resolve, reject) {
       var provider = new FirebaseLibrary.auth[providerName + 'AuthProvider']();
       myFirebaseAuth.signInWithPopup(provider).then(function(result){
-        deferred.resolve(user);
+        resolve(result);
       }).catch(function(err){
-        deferred.reject(err);
+        reject(err);
       });
-      return deferred.promise();
+    });
   };
 
   authWithPassword(email, password) {
-      var deferred = $.Deferred();
+    return new Promise(function(resolve, result){
       myFirebaseRef.signInWithEmailAndPassword(email, password).then(function(user) {
-          deferred.resolve(user);
+          resolve(user);
       }).catch(function(err){
-          deferred.reject(err);
+          reject(err);
       });
-      return deferred.promise();
+    });
   }
 
   createUser(email, password) {
-      var deferred = $.Deferred();
+    return new Promise(function(resolve, reject){
       myFirebaseAuth.createUserWithEmailAndPassword(email, password).then(function(user){
-        deferred.resolve();
+        resolve();
       }).catch(function(err){
-        deferred.reject(err);
+        reject(err);
       });
-      return deferred.promise();
+    });
   }
 
   createUserAndLogin(email, password) {
@@ -62,13 +63,11 @@ class LoginView extends React.Component {
   }
 
   handleAuthResponse(promise) {
-      $.when(promise)
-          .then(function (authData) {
-            console.log('Success in handling response');
-            console.log(authData);
-      }, function (err) {
-          console.log(err);
-      });
+    promise.then((user) => {
+      this.props.router.push('/');
+    }).catch(() => {
+      alert("There was an error in logging you in.  Please try again.");
+    });
   }
 
   register(e) {
@@ -102,10 +101,10 @@ class LoginView extends React.Component {
               <br />
               <br />
                <h4>Login with</h4>
-          <a className="btn btn-primary bt-social" data-provider="facebook" onClick={this.thirdPartyLogin.bind(this, 'Facebook')}>Facebook</a>
-          <a className="btn btn-primary bt-social" data-provider="google" onClick={this.thirdPartyLogin.bind(this, 'Google')}>Google</a>
-          <a className="btn btn-info bt-social" data-provider="twitter" onClick={this.thirdPartyLogin.bind(this, 'Twitter')}>Twitter</a>
-          <a className="btn btn-default bt-social" data-provider="github" onClick={this.thirdPartyLogin.bind(this, 'Github')}>GitHub</a>
+          <a className="btn btn-primary bt-social" data-provider="facebook" onClick={this.handleThirdPartyLogin.bind(this, 'Facebook')}>Facebook</a>
+          <a className="btn btn-primary bt-social" data-provider="google" onClick={this.handleThirdPartyLogin.bind(this, 'Google')}>Google</a>
+          <a className="btn btn-info bt-social" data-provider="twitter" onClick={this.handleThirdPartyLogin.bind(this, 'Twitter')}>Twitter</a>
+          <a className="btn btn-default bt-social" data-provider="github" onClick={this.handleThirdPartyLogin.bind(this, 'Github')}>GitHub</a>
 
           </form>
           <form className="register" id="register" onSubmit={this.register.bind(this)}> 
@@ -126,4 +125,4 @@ class LoginView extends React.Component {
   }
 }
 
-export default LoginView;
+export default withRouter(LoginView);

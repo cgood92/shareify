@@ -1,7 +1,7 @@
 import React from 'react'
-import { myFirebaseRef } from '../../globals.js'
+import { myFirebaseRef, myFirebaseAuth, user } from '../../globals.js'
 
-import { Link } from 'react-router'
+import { Link, withRouter } from 'react-router'
 
 class MainLayout extends React.Component {
 
@@ -15,7 +15,8 @@ class MainLayout extends React.Component {
       collection: {
         id: this.props.params.collectionId,
         title: null
-      }
+      },
+      loggedIn: false
     };
   }
 
@@ -49,6 +50,19 @@ class MainLayout extends React.Component {
     if (boardId) {
       myFirebaseRef.child("boards/" + boardId + "/title").on("value", this.updateBoardFromFB.bind(this));
     }
+    user().then(() => {
+      this.state.loggedIn = true;
+      this.setState(this.state);
+    }).catch(function(){
+    });
+    myFirebaseAuth.onAuthStateChanged((authData) => {
+        if (authData) {
+          this.state.loggedIn = true;
+        } else {
+          this.state.loggedIn = false;
+        }
+        this.setState(this.state);
+    });
   }
 
   componentDidMount() {
@@ -81,9 +95,15 @@ class MainLayout extends React.Component {
     this.mount.apply(this);
   }
 
+  logout(e) {
+    myFirebaseAuth.signOut();
+    this.props.router.push('/login');
+    return false;
+  }
+
   render() {
     var { board, collection } = this.state;
-    var breadcrumbs = <ul id="nav-mobile" className="right hide-on-med-and-down">
+    var breadcrumbs = <ul className="hide-on-med-and-down mainNav__breadcrumb">
       <li><Link to="/">Home</Link></li>
       {board.id ? <li><Link to={"/" + board.id}>{board.title}</Link></li> : null}
       {collection.id ? <li><Link to={"/" + board.id + '/' + collection.id}>{collection.title}</Link></li> : null}
@@ -94,6 +114,7 @@ class MainLayout extends React.Component {
           <div className="nav-wrapper blue-grey darken-4">
               <Link to="/" className="brand-logo">Shareify</Link>
               {breadcrumbs}
+              { (this.state.loggedIn) ? <a className='right' onClick={this.logout.bind(this)}>Logout</a> : <Link to="/login" className="right">Login</Link>}
           </div>
         </nav>
         <main>
@@ -107,4 +128,4 @@ class MainLayout extends React.Component {
   }
 }
 
-export default MainLayout;
+export default withRouter(MainLayout);
