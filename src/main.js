@@ -1,28 +1,13 @@
-import { Router, Route, Link, hashHistory } from 'react-router'
-import React from 'react'
-import { render } from 'react-dom'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import store from './Store';
+import router from './Router';
+
 import jquery from 'jquery'
-
-import BoardView from './components/BoardView/BoardView.js'
-import CollectionView from './components/CollectionView/CollectionView.js'
-import HomeView from './components/HomeView/HomeView.js'
-import MainLayout from './components/MainLayout/MainLayout.js'
-import LoginView from './components/LoginView/LoginView.js'
-
 window.jQuery = window.$ = jquery;
-$(document).ready(function() {
-    // Initialize router
-    render(
-        <Router history={hashHistory}>
-            <Route component={MainLayout}>
-                <Route path="/login" component={LoginView} />
-                <Route path="/:boardId/:collectionId" component={CollectionView} />
-                <Route path="/:boardId" component={BoardView} />
-                <Route path="/" component={HomeView} />
-            </Route>
-        </Router>
-  , document.getElementById('app'), function() {
-        // Callback to render
-    });
-});
 
+ReactDOM.render(
+  <Provider store={store}>{router}</Provider>,
+  document.getElementById('app')
+);
