@@ -1,11 +1,15 @@
 import { combineReducers } from 'redux';
 
 // Reducers
-import userReducer from './user-reducer';
+import resourceReducer from './resource-reducer';
+import collectionReducer from './collection-reducer';
+import boardReducer from './board-reducer';
 
 // Combine Reducers
 var reducers = combineReducers({
-    userState: userReducer
+    resourceState: resourceReducer,
+    collectionState: collectionReducer,
+    boardState: boardReducer
 });
 
 export default reducers;
