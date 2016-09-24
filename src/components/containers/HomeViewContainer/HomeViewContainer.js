@@ -5,31 +5,35 @@ import Store from '../../../Store.js';
 
 import HomeView from '../../views/HomeView/HomeView.js';
 
-class HomeViewContainer extends React.Component {
-    
-    updateFromFB(snapshot) {
-        var toDispatch = {
-            type: 'FETCH_BOARDS',
-            boards: [],
-            loggedIn: true
-        };
-        if (snapshot.exists()) {
-            var result = snapshot.val();
-            var boards = Object.keys(result).map((elem) => {
-                var newObj = result[elem];
-                newObj.id = newObj.key = elem;
-                return newObj;
-            });
-            toDispatch.boards = boards;
-            Store.dispatch(toDispatch);
-        } else {
-            Store.dispatch(toDispatch);
-        }
+function updateFromFB(snapshot) {
+    var toDispatch = {
+        type: 'FETCH_BOARDS',
+        boards: {},
+        loggedIn: true
+    };
+    if (snapshot.exists()) {
+        toDispatch.boards = snapshot.val();
+        Store.dispatch(toDispatch);
+    } else {
+        Store.dispatch(toDispatch);
     }
+}
+
+function fetchBoards(userId, callback) {
+    myFirebaseRef.child("boards").orderByChild("user/" + userId).equalTo(userId).on("value", (snapshot) => { 
+        updateFromFB.call(this, snapshot); 
+        if (callback) {
+            callback.call(this, snapshot); 
+        }
+    });
+}
+
+class HomeViewContainer extends React.Component {
+
 
     componentDidMount() {
         user().then((user) => {
-            myFirebaseRef.child("boards").orderByChild("user/" + user.uid).equalTo(user.uid).on("value", this.updateFromFB.bind(this));
+            this.fetchBoards.call(this, user.uid);
         }).catch(() => {
             Store.dispatch({
                 type: 'FETCH_BOARDS',
@@ -56,4 +60,5 @@ const mapStateToProps = function(store) {
     };
 };
 
+export { fetchBoards };
 export default connect(mapStateToProps)(HomeViewContainer);

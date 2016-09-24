@@ -30,13 +30,17 @@ class BoardViewContainer extends React.Component {
                 Store.dispatch({
                     type: 'UPDATE_BOARD',
                     permissionToBoard: Boolean(result.user[user.uid]),
-                    title: result.title
+                    title: result.title,
+                    id: snapshot.key,
+                    users: result.user
                 });
-            }).catch(() => {
+            }).catch((e) => {
                 Store.dispatch({
                     type: 'UPDATE_BOARD',
                     permissionToBoard: false,
-                    title: result.title
+                    title: result.title,
+                    id: snapshot.key,
+                    users: result.user
                 });
             });
         } else {
@@ -70,7 +74,8 @@ class BoardViewContainer extends React.Component {
 
 const mapStateToProps = function(store) {
     return {
-        board: store.boardState
+        board: store.boardState,
+        permissions: store.permissions
     };
 };
 

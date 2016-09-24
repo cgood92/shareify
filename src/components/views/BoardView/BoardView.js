@@ -12,6 +12,6 @@ export default function(props) {
     return (<section className="collectionRow">
         <h1 className="title">{title}</h1>
         {collections}
-        {(permissionToBoard) ? <CollectionCardEditable boardId={this.state.id}/> : null}
+        {(permissionToBoard) ? <CollectionCardEditable boardId={id}/> : null}
     </section>);
 }

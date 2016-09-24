@@ -11,8 +11,8 @@ class ResourceCardContainer extends React.Component {
     }
 
     remove() {
-        if (this.state.permissionToBoard) {
-            myFirebaseRef.child("resources/" + this.state.id + "/collection/" + this.state.collectionId).remove(function(){
+        if (this.props.permissionToBoard) {
+            myFirebaseRef.child("resources/" + this.props.id + "/collection/" + this.props.collectionId).remove(function(){
             });
         }
     }

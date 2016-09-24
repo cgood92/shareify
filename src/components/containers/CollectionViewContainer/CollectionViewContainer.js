@@ -4,17 +4,48 @@ import { myFirebaseRef, user } from '../../../globals.js'
 import Store from '../../../Store.js';
 
 import CollectionView from '../../views/CollectionView/CollectionView.js';
+import {fetchBoards} from '../HomeViewContainer/HomeViewContainer.js';
 
 class CollectionViewContainer extends React.Component {
 
+    havePermissions(board){
+        return Object.keys(board).some((board) => {
+            return this.props.permissions.boards[board];
+        });
+    }
+
     updateCollectionFromFB(snapshot) {
+        var toDispatch = {
+            type: 'UPDATE_COLLECTION',
+            title: ''
+        };
         if (snapshot.exists()) {
             var collection = snapshot.val();
-            Store.dispatch({
-                type: 'UPDATE_COLLECTION',
-                title: collection.title
+            toDispatch.title = collection.title
+            user().then((user) => {
+                if (this.havePermissions.call(this, collection.board)) {
+                    toDispatch.permissionToBoard = true;
+                    Store.dispatch(toDispatch);
+                } else {
+                    if(!this.props.permissions.boards.fetched) {
+                        fetchBoards(user.uid, (snapshot) => {
+                            var result = snapshot.val();
+                            if (this.havePermissions.call(this, result)) {
+                                toDispatch.permissionToBoard = true;
+                                Store.dispatch(toDispatch);
+                            } else {
+                                Store.dispatch(toDispatch);
+                            }
+                        });
+                    } else {
+                        Store.dispatch(toDispatch);
+                    }
+                }
+            }).catch((e) => {
+                Store.dispatch(toDispatch);
             });
         }
+        Store.dispatch(toDispatch);
     }
 
     updateResourcesFromFB(snapshot) {
@@ -56,7 +87,8 @@ class CollectionViewContainer extends React.Component {
 
 const mapStateToProps = function(store) {
     return {
-        collection: store.collectionState
+        collection: store.collectionState,
+        permissions: store.permissions
     };
 };
 
