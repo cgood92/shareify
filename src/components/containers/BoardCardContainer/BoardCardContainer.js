@@ -16,12 +16,14 @@ class BoardCardContainer extends React.Component {
 
     remove(e) {
         // Remove board from DB
-        myFirebaseRef.child("boards/" + this.state.id).remove(function(){
+        myFirebaseRef.child("boards/" + this.props.id).remove(function(){
         });
     }
 
     render() {
-        return (<BoardCard {...this.props}/>);
+        return (<BoardCard {...this.props} controllers={{
+            remove: this.remove.bind(this)
+        }}/>);
     }
 }
 

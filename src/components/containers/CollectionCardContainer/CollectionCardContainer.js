@@ -12,15 +12,17 @@ class CollectionCardContainer extends React.Component {
     }
 
     remove(e) {
-        var { permissionToBoard, id } = this.state;
+        var { permissionToBoard, id } = this.props;
         if (permissionToBoard) {
-            myFirebaseRef.child("collections").child(id).remove(function(){
+            myFirebaseRef.child("collections/" + id).remove(function(){
             });
         }
     }
 
     render() {
-        return (<CollectionCard {...this.props}/>);
+        return (<CollectionCard {...this.props} controllers={{
+            remove: this.remove.bind(this)
+        }}/>);
     }
 }
 
