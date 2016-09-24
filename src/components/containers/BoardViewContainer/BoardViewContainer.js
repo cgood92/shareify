@@ -11,7 +11,11 @@ class BoardViewContainer extends React.Component {
     updateCollectionsFromFB(snapshot) {
         var collections = [];
         if (snapshot.exists()){
-            collections = Object.keys(snapshot.val());
+            collections = Object.keys(snapshot.val()).map((elem) => {
+                var newObj = snapshot.val()[elem];
+                newObj.id = elem;
+                return newObj;
+            });
         }
         Store.dispatch({
             type: 'FETCH_BOARD',
