@@ -2,7 +2,7 @@ import React from 'react';
 
 // Using "Stateless Functional Components"
 export default function(props) {
-    const { href, permissionToBoard } = props;
+    const { href, permissionToBoard, controllers } = props;
     return (<li className="collection-item">
     <a href={href} target="_BLANK">{href}</a>
     {(permissionToBoard) ? 
@@ -11,7 +11,7 @@ export default function(props) {
           <i className="material-icons">more_vert</i>
         </a>
         <ul className="fab-small">
-          <li><a className="btn-floating red"><i className="material-icons">delete</i></a></li>
+          <li onClick={controllers.remove}><a className="btn-floating red"><i className="material-icons">delete</i></a></li>
         </ul>
       </div>
       : null

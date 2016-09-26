@@ -18,7 +18,7 @@ class ResourceCardContainer extends React.Component {
     }
 
     render() {
-        return (<ResourceCard permissionToBoard={this.props.permissionToBoard} href={this.props.href}/>);
+        return (<ResourceCard permissionToBoard={this.props.permissionToBoard} href={this.props.href} controllers={{remove: this.remove.bind(this)}}/>);
     }
 
 }

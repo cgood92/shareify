@@ -1,7 +1,7 @@
 import React from 'react';
 
 import CollectionCardContainer from '../../containers/CollectionCardContainer/CollectionCardContainer.js'
-import CollectionCardEditable from '../../CollectionCardEditable/CollectionCardEditable.js'
+import CollectionCardEditableContainer from '../../containers/CollectionCardEditableContainer/CollectionCardEditableContainer.js'
 
 // Using "Stateless Functional Components"
 export default function(props) {
@@ -12,6 +12,6 @@ export default function(props) {
     return (<section className="collectionRow">
         <h1 className="title">{title}</h1>
         {collections}
-        {(permissionToBoard) ? <CollectionCardEditable boardId={id}/> : null}
+        {(permissionToBoard) ? <CollectionCardEditableContainer boardId={id}/> : null}
     </section>);
 }

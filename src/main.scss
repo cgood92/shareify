@@ -1,15 +1,15 @@
 @import 'components/views/BoardCard/BoardCard.scss';
-@import 'components/BoardCardEditable/BoardCardEditable.scss';
+@import 'components/views/BoardCardEditable/BoardCardEditable.scss';
 @import 'components/views/BoardView/BoardView.scss';
 @import 'components/ChatCard/ChatCard.scss';
 @import 'components/views/CollectionCard/CollectionCard.scss';
-@import 'components/CollectionCardEditable/CollectionCardEditable.scss';
+@import 'components/views/CollectionCardEditable/CollectionCardEditable.scss';
 @import 'components/views/CollectionView/CollectionView.scss';
 @import 'components/views/HomeView/HomeView.scss';
 @import 'components/views/LoginView/LoginView.scss';
 @import 'components/MainLayout/MainLayout.scss';
 @import 'components/views/ResourceCard/ResourceCard.scss';
-@import 'components/ResourceCardEditable/ResourceCardEditable.scss';
+@import 'components/views/ResourceCardEditable/ResourceCardEditable.scss';
 
 .home, .collectionRow {
     width: 95%;

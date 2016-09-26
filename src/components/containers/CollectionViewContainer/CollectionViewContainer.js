@@ -81,7 +81,8 @@ class CollectionViewContainer extends React.Component {
     }
 
     render() {
-        return (<CollectionView {...this.props.collection}/>);
+        const id = this.props.params.collectionId;
+        return (<CollectionView {...this.props.collection} id={id}/>);
     }
 }
 

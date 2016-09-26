@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Link } from 'react-router'
 import BoardCardContainer from '../../containers/BoardCardContainer/BoardCardContainer.js'
-import BoardCardEditable from '../../BoardCardEditable/BoardCardEditable.js'
+import BoardCardEditableContainer from '../../containers/BoardCardEditableContainer/BoardCardEditableContainer.js'
 
 // Using "Stateless Functional Components"
 export default function(props) {
@@ -13,7 +13,7 @@ export default function(props) {
     var boardSection = (loggedIn) ? <section className="home__boards">
             <h1 className="title">Boards</h1>
             {boards}
-            <BoardCardEditable/>
+            <BoardCardEditableContainer/>
         </section> : null;
     return (<section className="home">
         {(loggedIn) ? boardSection :
