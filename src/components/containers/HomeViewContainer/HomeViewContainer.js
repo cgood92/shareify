@@ -33,8 +33,8 @@ class HomeViewContainer extends React.Component {
 
     componentDidMount() {
         user().then((user) => {
-            this.fetchBoards.call(this, user.uid);
-        }).catch(() => {
+            fetchBoards.call(this, user.uid);
+        }).catch((e) => {
             Store.dispatch({
                 type: 'FETCH_BOARDS',
                 boards: [],
@@ -45,7 +45,7 @@ class HomeViewContainer extends React.Component {
 
     componentWillUnmount() {
         user().then((user) => {
-            myFirebaseRef.child("boards").orderByChild("user").equalTo(user.uid).off("value", this.updateFromFB.bind(this));
+            myFirebaseRef.child("boards").orderByChild("user").equalTo(user.uid).off("value", updateFromFB.bind(this));
         });
     }
 
