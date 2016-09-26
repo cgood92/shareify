@@ -12,7 +12,8 @@ class MainLayoutContainer extends React.Component {
     if (snapshot.exists()){
       Store.dispatch({
         type: 'UPDATE_BOARD',
-        title: snapshot.val()
+        title: snapshot.val(),
+        id: this.props.params.boardId
       });
     } else {
       Store.dispatch({
@@ -26,7 +27,8 @@ class MainLayoutContainer extends React.Component {
     if (snapshot.exists()){
       Store.dispatch({
         type: 'UPDATE_COLLECTION',
-        title: snapshot.val()
+        title: snapshot.val(),
+        id: this.props.params.collectionId
       });
     } else {
       Store.dispatch({
@@ -37,7 +39,7 @@ class MainLayoutContainer extends React.Component {
   }
 
   componentDidMount() {
-    var { collectionId, boardId } = this.props;
+    var { collectionId, boardId } = this.props.params;
     if (collectionId) {
       myFirebaseRef.child("collections/" + collectionId + "/title").on("value", this.updateCollectionFromFB.bind(this));
     } 

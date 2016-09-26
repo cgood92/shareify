@@ -7,9 +7,23 @@ const initialState = {
 const mainLayoutReducer = function(state = initialState, action) {
 	switch(action.type) {
 		case 'UPDATE_BOARD':
-			return Object.assign({}, state, {board: { title: action.title}});
+			var newState = Object.assign({}, state);
+			if (action.title) {
+				newState.board.title = action.title;
+			}
+			if (action.id) {
+				newState.board.id = action.id;
+			}
+			return newState;
 		case 'UPDATE_COLLECTION':
-			return Object.assign({}, state, {collection: { title: action.title}});
+			var newState = Object.assign({}, state);
+			if (action.title) {
+				newState.collection.title = action.title;
+			}
+			if (action.id) {
+				newState.collection.id = action.id;
+			}
+			return newState;
 		case 'UPDATE_LOGIN':
 			return Object.assign({}, state, action);
 	}
