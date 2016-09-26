@@ -85,6 +85,7 @@ class LoginViewContainer extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     return (<LoginView controllers={{
       register: this.register.bind(this),
       handleThirdPartyLogin: this.handleThirdPartyLogin.bind(this)

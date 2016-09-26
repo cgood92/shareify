@@ -6,6 +6,7 @@ import collectionReducer from './collection-reducer';
 import boardReducer from './board-reducer';
 import homeReducer from './home-reducer';
 import permissionsReducer from './permissions-reducer';
+import mainLayoutReducer from './mainLayout-reducer';
 
 // Combine Reducers
 var reducers = combineReducers({
@@ -13,7 +14,8 @@ var reducers = combineReducers({
     collectionState: collectionReducer,
     boardState: boardReducer,
     homeState: homeReducer,
-    permissions: permissionsReducer
+    permissions: permissionsReducer,
+    mainLayoutState: mainLayoutReducer
 });
 
 export default reducers;
