@@ -7,90 +7,77 @@ import CollectionView from '../../views/CollectionView/CollectionView.js';
 import {fetchBoards} from '../HomeViewContainer/HomeViewContainer.js';
 
 class CollectionViewContainer extends React.Component {
-
-    havePermissions(board){
-        return Object.keys(board).some((board) => {
-            return this.props.permissions.boards[board];
-        });
-    }
-
-    updateCollectionFromFB(snapshot) {
-        var toDispatch = {
-            type: 'UPDATE_COLLECTION',
-            title: ''
-        };
-        if (snapshot.exists()) {
-            var collection = snapshot.val();
-            toDispatch.title = collection.title
-            user().then((user) => {
-                if (this.havePermissions.call(this, collection.board)) {
-                    toDispatch.permissionToBoard = true;
-                    Store.dispatch(toDispatch);
-                } else {
-                    if(!this.props.permissions.boards.fetched) {
-                        fetchBoards(user.uid, (snapshot) => {
-                            var result = snapshot.val();
-                            if (this.havePermissions.call(this, result)) {
-                                toDispatch.permissionToBoard = true;
-                                Store.dispatch(toDispatch);
-                            } else {
-                                Store.dispatch(toDispatch);
-                            }
-                        });
-                    } else {
-                        Store.dispatch(toDispatch);
-                    }
-                }
-            }).catch((e) => {
-                Store.dispatch(toDispatch);
-            });
-        }
-        Store.dispatch(toDispatch);
-    }
-
-    updateResourcesFromFB(snapshot) {
-        if (snapshot.exists()) {
-            var collection = snapshot.val(),
-                resources = Object.keys(collection).map(function(i){
-                    var obj = collection[i];
-                    obj.key = i;
-                    return obj;
-                });
-            Store.dispatch({
-                type: 'FETCH_RESOURCES',
-                resources
-            });
-        } else {
-            Store.dispatch({
-                type: 'FETCH_RESOURCES',
-                resources: []
-            });
-        }
+    constructor(props) {
+        super(props);
+        this.state = {};
     }
 
     componentDidMount() {
-        const id = this.props.params.collectionId;
-        myFirebaseRef.child("resources").orderByChild('collection/' + id).equalTo(id).on("value", this.updateResourcesFromFB.bind(this));
-        myFirebaseRef.child("collections/" + id).on("value", this.updateCollectionFromFB.bind(this));
+        // For the collection 
+        var collectionId = this.props.params.collectionId,
+            collection = this.props.collections.collections[collectionId]; 
+        this.props.collections.current = collectionId;
+        if (collection) {
+            collection.id = collectionId;
+            this.state = collection;
+        } else {
+            myFirebaseRef.child("collections/" + collectionId).on("value", (snapshot) => {
+                if (snapshot.exists()) {
+                    var collection = snapshot.val();
+                    Store.dispatch({
+                        type: 'FETCH_COLLECTION',
+                        collections: { [collectionId]: collection },
+                        current: collectionId
+                    });
+                    collection.id = collectionId;
+                    this.state = Object.assign({}, this.state, collection);
+                }
+            });
+        }
+        Store.dispatch({
+            type: 'UPDATE_COLLECTION',
+            current: collectionId
+        });
+
+        // For the resources 
+        var resources = [];
+        var map = this.props.resources.map[collectionId];
+        // Already been fetched
+        if (map) {
+            for (var i in map) {
+                resources.push(this.props.resources.resources[i]);
+            }
+            this.state.resources = resources;
+        } else {
+            myFirebaseRef.child("resources").orderByChild('collection/' + collectionId).equalTo(collectionId).on("value", (snapshot) => {
+                if (snapshot.exists()) {
+                    var resources = snapshot.val();
+                    this.state.resources = [];
+                    this.state.resources = Object.keys(resources).map((i) => {
+                        var resource = resources[i];
+                        resource.id = i;
+                        return resource;
+                    });
+                    Store.dispatch({
+                        type: 'FETCH_RESOURCES',
+                        resources,
+                        collectionId 
+                    });
+                }
+            });
+        }
     }
 
     componentWillUnmount() {
-        const id = this.props.params.collectionId;
-        myFirebaseRef.child("resources").orderByChild('collection/' + id).equalTo(id).off("value", this.updateResourcesFromFB.bind(this));
-        myFirebaseRef.child("collections/" + id).off("value", this.updateCollectionFromFB.bind(this));
     }
 
     render() {
-        const id = this.props.params.collectionId;
-        return (<CollectionView {...this.props.collection} id={id}/>);
+        return (<CollectionView collection={this.state}/>);
     }
 }
 
 const mapStateToProps = function(store) {
-    return {
-        collection: store.collectionState,
-        permissions: store.permissions
-    };
+    return store;
 };
 
 export default connect(mapStateToProps)(CollectionViewContainer);

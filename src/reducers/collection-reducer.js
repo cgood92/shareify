@@ -1,18 +1,19 @@
 const initialState = {
-	title: '',
-	resources: [],
-	id: null,
-	permissionToBoard: false
+	collections: {},
+	map: {},
+	current: null
 };
 
-const collectionReducer = function(state = initialState, action) {
+export default function(oldState = initialState, action) {
+	var state = Object.assign({}, oldState);
 	switch(action.type) {
-		case 'UPDATE_COLLECTION':
-			return Object.assign({}, state, action);
-		case 'FETCH_RESOURCES':
-			return Object.assign({}, state, action);
+		case 'FETCH_COLLECTIONS':
+			state.collections = Object.assign({}, state.collections, action.collections);
+			state.map[action.boardId] = {};
+			for (var i in action.collections) {
+				state.map[action.boardId][i] = i;
+			}
+			return state;
 	}
 	return state;
-}
-
-export default collectionReducer;
+};

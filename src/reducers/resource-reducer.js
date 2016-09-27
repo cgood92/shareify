@@ -1,15 +1,18 @@
 const initialState = {
-	id: null,
-	href: null,
-	permissionToBoard: false
+	resources: {},
+	map: {}
 };
 
-const resourceReducer = function(state = initialState, action) {
+export default function(oldState = initialState, action) {
+	var state = Object.assign({}, oldState);
 	switch(action.type) {
-		case 'UPDATE_RESOURCE':
-			return Object.assign({}, state);
+		case 'FETCH_RESOURCES':
+			state.resources = Object.assign({}, state.resources, action.resources);
+			state.map[action.collectionId] = {};
+			for (var i in action.resources) {
+				state.map[action.collectionId][i] = i;
+			}
+			return state;
 	}
 	return state;
-}
-
-export default resourceReducer;
+};

@@ -7,8 +7,8 @@ import BoardCardEditableContainer from '../../containers/BoardCardEditableContai
 // Using "Stateless Functional Components"
 export default function(props) {
     var { boards, loggedIn } = props;
-    boards = boards.map((board) => {
-        return <BoardCardContainer {...board}/>;
+    boards = boards.map((board, index) => {
+        return <BoardCardContainer {...board} key={index}/>;
     });
     var boardSection = (loggedIn) ? <section className="home__boards">
             <h1 className="title">Boards</h1>

@@ -30,34 +30,27 @@ function fetchBoards(userId, callback) {
 
 class HomeViewContainer extends React.Component {
 
-
     componentDidMount() {
-        user().then((user) => {
-            fetchBoards.call(this, user.uid);
-        }).catch((e) => {
-            Store.dispatch({
-                type: 'FETCH_BOARDS',
-                boards: [],
-                loggedIn: false
-            });
-        });
     }
 
     componentWillUnmount() {
-        user().then((user) => {
-            myFirebaseRef.child("boards").orderByChild("user").equalTo(user.uid).off("value", updateFromFB.bind(this));
-        });
     }
 
     render() {
-        return (<HomeView {...this.props.home}/>);
+        var boardObj = this.props.boards.boards;
+        var boards = Object.keys(boardObj).map((key) => {
+            var board = boardObj[key];
+            board.id = key;
+            return board;
+        }).filter((obj) => {
+            return obj.permissionToBoard;
+        });
+        return (<HomeView loggedIn={this.props.user.loggedIn} boards={boards}/>);
     }
 }
 
 const mapStateToProps = function(store) {
-    return {
-        home: store.homeState
-    };
+    return store;
 };
 
 export { fetchBoards };

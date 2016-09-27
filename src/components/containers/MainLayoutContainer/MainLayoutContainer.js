@@ -8,74 +8,30 @@ import MainLayout from '../../views/MainLayout/MainLayout.js';
 
 class MainLayoutContainer extends React.Component {
 
-  updateBoardFromFB(snapshot) {
-    if (snapshot.exists()){
-      Store.dispatch({
-        type: 'UPDATE_BOARD',
-        title: snapshot.val(),
-        id: this.props.params.boardId
-      });
-    } else {
-      Store.dispatch({
-        type: 'UPDATE_BOARD',
-        title: null
-      });
-    }
-  }
-
-  updateCollectionFromFB(snapshot) {
-    if (snapshot.exists()){
-      Store.dispatch({
-        type: 'UPDATE_COLLECTION',
-        title: snapshot.val(),
-        id: this.props.params.collectionId
-      });
-    } else {
-      Store.dispatch({
-        type: 'UPDATE_COLLECTION',
-        title: null
-      });
-    }
-  }
-
   componentDidMount() {
-    var { collectionId, boardId } = this.props.params;
-    if (collectionId) {
-      myFirebaseRef.child("collections/" + collectionId + "/title").on("value", this.updateCollectionFromFB.bind(this));
-    } 
-
-    if (boardId) {
-      myFirebaseRef.child("boards/" + boardId + "/title").on("value", this.updateBoardFromFB.bind(this));
-    }
-
-    user().then(() => {
-      Store.dispatch({
-        type: 'UPDATE_LOGIN',
-        loggedIn: true
+    user().then((user) => {
+      var userId = user.uid;
+      myFirebaseRef.child("boards").orderByChild("user/" + userId).equalTo(userId).on("value", (snapshot) => { 
+        Store.dispatch({
+          type: 'FETCH_OWNED_BOARDS',
+          boards: snapshot.val()
+        });
       });
-    }).catch(function(){
     });
+
     myFirebaseAuth.onAuthStateChanged((authData) => {
         var loggedIn = false;
         if (authData) {
           loggedIn = true;
         }
         Store.dispatch({
-          type: 'UPDATE_LOGIN',
+          type: 'UPDATE_USER',
           loggedIn
         });
     });
   }
 
   componentWillUnmount() {
-    var { collectionId, boardId } = this.props;
-    if (collectionId) {
-      myFirebaseRef.child("collections/" + collectionId + "/title").off("value", this.updateCollectionFromFB.bind(this));
-    } 
-
-    if (boardId) {
-      myFirebaseRef.child("boards/" + boardId + "/title").off("value", this.updateBoardFromFB.bind(this));
-    }
   }
 
   logout(e) {
@@ -84,15 +40,33 @@ class MainLayoutContainer extends React.Component {
     return false;
   }
 
+  getBoard(){
+    if (this.props.boards.current) {
+      return {
+        id: this.props.boards.current,
+        title: (this.props.boards.boards[this.props.boards.current] || {}).title
+      };
+    } else { return {}; }
+  }
+
+  getCollection(){
+    if (this.props.collections.current) {
+      return {
+        id: this.props.collections.current,
+        title: (this.props.collections.collections[this.props.collections.current] || {}).title
+      };
+    } else { return {}; }
+  }
+
   render() {
-    return (<MainLayout {...this.props.mainLayout} children={this.props.children} controllers={{ logout: this.logout.bind(this) }}/>);
+    var board = this.getBoard.call(this);
+    var collection = this.getCollection.call(this);
+    return (<MainLayout board={board} collection={collection} loggedIn={this.props.user.loggedIn} children={this.props.children} controllers={{ logout: this.logout.bind(this) }}/>);
   }
 }
 
 const mapStateToProps = function(store) {
-    return {
-      mainLayout: store.mainLayoutState
-    };
+    return store;
 };
 
 export default connect(mapStateToProps)(MainLayoutContainer);
