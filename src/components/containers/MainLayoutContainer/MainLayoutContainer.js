@@ -41,19 +41,21 @@ class MainLayoutContainer extends React.Component {
   }
 
   getBoard(){
-    if (this.props.boards.current) {
+    var boardId = this.props.params.boardId;
+    if (this.props.collections.current) {
       return {
-        id: this.props.boards.current,
-        title: (this.props.boards.boards[this.props.boards.current] || {}).title
+        id: boardId,
+        title: (this.props.boards.boards[boardId] || {}).title
       };
     } else { return {}; }
   }
 
   getCollection(){
+    var collectionId = this.props.params.collectionId;
     if (this.props.collections.current) {
       return {
-        id: this.props.collections.current,
-        title: (this.props.collections.collections[this.props.collections.current] || {}).title
+        id: collectionId,
+        title: (this.props.collections.collections[collectionId] || {}).title
       };
     } else { return {}; }
   }

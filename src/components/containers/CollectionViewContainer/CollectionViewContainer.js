@@ -15,6 +15,7 @@ class CollectionViewContainer extends React.Component {
     componentDidMount() {
         // For the collection 
         var collectionId = this.props.params.collectionId,
+            boardId = this.props.params.boardId,
             collection = this.props.collections.collections[collectionId]; 
         this.props.collections.current = collectionId;
         if (collection) {
@@ -37,6 +38,10 @@ class CollectionViewContainer extends React.Component {
         Store.dispatch({
             type: 'UPDATE_COLLECTION',
             current: collectionId
+        });
+        Store.dispatch({
+            type: 'UPDATE_BOARD',
+            current: boardId
         });
 
         // For the resources 
