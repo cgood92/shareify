@@ -17,7 +17,7 @@ class MainLayoutContainer extends React.Component {
           boards: snapshot.val()
         });
       });
-    });
+    }).catch(() => {});
 
     myFirebaseAuth.onAuthStateChanged((authData) => {
         var loggedIn = false;

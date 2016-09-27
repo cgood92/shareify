@@ -25,7 +25,7 @@ export var user = function() {
             if (authData) {
                 resolve(myFirebaseAuth.currentUser);
             } else {
-                reject(null);
+                reject("Not logged in");
             }
         });
     });
