@@ -35,6 +35,7 @@ class CollectionViewContainer extends React.Component {
                 }
             });
         }
+
         Store.dispatch({
             type: 'UPDATE_COLLECTION',
             current: collectionId
@@ -43,6 +44,8 @@ class CollectionViewContainer extends React.Component {
             type: 'UPDATE_BOARD',
             current: boardId
         });
+
+        this.state.permissionToBoard = (this.props.boards.boards[boardId] || {}).permissionToBoard;
 
         // For the resources 
         var resources = [];
@@ -77,6 +80,7 @@ class CollectionViewContainer extends React.Component {
     }
 
     render() {
+        this.state.permissionToBoard = this.props.boards.boards[this.props.params.boardId];
         return (<CollectionView collection={this.state}/>);
     }
 }
