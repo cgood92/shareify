@@ -18,7 +18,7 @@ export default function(oldState = initialState, action) {
 				confBoards[i] = action.boards[i];
 				confBoards[i].permissionToBoard = true;
 			}
-			state.boards = Object.assign({}, state.boards, confBoards);
+			state.boards = confBoards;
 			return state;
 		case 'UPDATE_BOARD':
 			return Object.assign({}, state, { current: action.current });

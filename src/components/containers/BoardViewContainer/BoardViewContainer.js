@@ -62,6 +62,8 @@ class BoardViewContainer extends React.Component {
                         collections,
                         boardId
                     });
+                } else {
+                    this.setState(Object.assign(this.state, {collections: []}));
                 }
             });
         }

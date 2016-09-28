@@ -24,9 +24,7 @@ class ResourceCardContainer extends React.Component {
 }
 
 const mapStateToProps = function(store) {
-    return {
-        resource: store.resourceState
-    };
+    return store;
 };
 
 export default connect(mapStateToProps)(ResourceCardContainer);

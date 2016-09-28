@@ -4,7 +4,6 @@ import { myFirebaseRef, user } from '../../../globals.js'
 import Store from '../../../Store.js';
 
 import CollectionView from '../../views/CollectionView/CollectionView.js';
-import {fetchBoards} from '../HomeViewContainer/HomeViewContainer.js';
 
 class CollectionViewContainer extends React.Component {
     constructor(props) {
@@ -45,8 +44,6 @@ class CollectionViewContainer extends React.Component {
             current: boardId
         });
 
-        this.state.permissionToBoard = (this.props.boards.boards[boardId] || {}).permissionToBoard;
-
         // For the resources 
         var resources = [];
         var map = this.props.resources.map[collectionId];
@@ -58,9 +55,9 @@ class CollectionViewContainer extends React.Component {
             this.state.resources = resources;
         } else {
             myFirebaseRef.child("resources").orderByChild('collection/' + collectionId).equalTo(collectionId).on("value", (snapshot) => {
+                var resources = {};
                 if (snapshot.exists()) {
-                    var resources = snapshot.val();
-                    this.state.resources = [];
+                    resources = snapshot.val();
                     this.state.resources = Object.keys(resources).map((i) => {
                         var resource = resources[i];
                         resource.id = i;
@@ -71,6 +68,8 @@ class CollectionViewContainer extends React.Component {
                         resources,
                         collectionId 
                     });
+                } else {
+                    this.setState(Object.assign(this.state, {resources: []}));
                 }
             });
         }
@@ -80,7 +79,7 @@ class CollectionViewContainer extends React.Component {
     }
 
     render() {
-        this.state.permissionToBoard = this.props.boards.boards[this.props.params.boardId];
+        this.state.permissionToBoard = this.props.boards.boards[this.props.params.boardId].permissionToBoard;
         return (<CollectionView collection={this.state}/>);
     }
 }

@@ -5,29 +5,6 @@ import Store from '../../../Store.js';
 
 import HomeView from '../../views/HomeView/HomeView.js';
 
-function updateFromFB(snapshot) {
-    var toDispatch = {
-        type: 'FETCH_BOARDS',
-        boards: {},
-        loggedIn: true
-    };
-    if (snapshot.exists()) {
-        toDispatch.boards = snapshot.val();
-        Store.dispatch(toDispatch);
-    } else {
-        Store.dispatch(toDispatch);
-    }
-}
-
-function fetchBoards(userId, callback) {
-    myFirebaseRef.child("boards").orderByChild("user/" + userId).equalTo(userId).on("value", (snapshot) => { 
-        updateFromFB.call(this, snapshot); 
-        if (callback) {
-            callback.call(this, snapshot); 
-        }
-    });
-}
-
 class HomeViewContainer extends React.Component {
 
     componentDidMount() {
@@ -53,5 +30,4 @@ const mapStateToProps = function(store) {
     return store;
 };
 
-export { fetchBoards };
 export default connect(mapStateToProps)(HomeViewContainer);

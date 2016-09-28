@@ -9,7 +9,7 @@ export default function(props) {
     var resources = [];
     if (collection.resources) {
         resources = collection.resources.map(function(elem, index){
-            return <ResourceCardContainer href={elem.href} key={index} id={elem.key} collectionId={collection.id} permissionToBoard={collection.permissionToBoard} />;
+            return <ResourceCardContainer href={elem.href} key={index} id={elem.id} collectionId={collection.id} permissionToBoard={collection.permissionToBoard} />;
         });
     }
     return (<section className="resourcesView">
