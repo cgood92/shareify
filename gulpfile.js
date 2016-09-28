@@ -46,7 +46,8 @@ var customSassError = function (err) {
     console.log(errorMessage);
 };
 
-gulp.task('default', ['build', 'browsersync-setup', 'watch']);
+gulp.task('default', ['build']);
+gulp.task('serve', ['build', 'browsersync-setup', 'watch']);
 gulp.task('build', ['scripts', 'styles', 'copyHTML']);
 
 gulp.task('browsersync-setup', ['build'], function() {
