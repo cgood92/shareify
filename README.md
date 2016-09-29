@@ -5,4 +5,4 @@ This is a project for me to learn/experiment with React.js.  It's not meant to b
 ### Local Setup
 
     npm install
-    gulp #This will build/serve/watch/reload
+    gulp serve
