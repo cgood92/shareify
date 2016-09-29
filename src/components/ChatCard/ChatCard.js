@@ -27,7 +27,7 @@ class ChatCard extends React.Component {
             return <li className="collection-item chat__message" key={index}><label>{message.user}</label> {message.message}</li>;
         });
         return (<ul className="chat collection with-header hidden">
-            <li className="collection-header" onClick={this.toggleDisplay}>Chat</li>
+            <li className="collection-header" onClick={this.toggleDisplay}>Chat <span className='chat_is_demo'>[Not Functional Yet]</span><i className="material-icons right">import_export</i></li>
             {messages}
             <li className="collection-item chat__message">
                 <div className="input-field">
