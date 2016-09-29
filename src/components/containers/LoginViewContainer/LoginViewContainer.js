@@ -38,7 +38,7 @@ class LoginViewContainer extends React.Component {
 
   authWithPassword(email, password) {
     return new Promise(function(resolve, result){
-      myFirebaseRef.signInWithEmailAndPassword(email, password).then(function(user) {
+      myFirebaseAuth.signInWithEmailAndPassword(email, password).then(function(user) {
           resolve(user);
       }).catch(function(err){
           reject(err);
@@ -57,7 +57,7 @@ class LoginViewContainer extends React.Component {
   }
 
   createUserAndLogin(email, password) {
-      return this.createUser(email, password).then(function () {
+      return this.createUser(email, password).then(() => {
           return this.authWithPassword(email, password);
       });
   }
@@ -67,7 +67,7 @@ class LoginViewContainer extends React.Component {
       this.props.router.push('/');
     }).catch((e) => {
       console.log(e);
-      alert("There was an error in logging you in.  Please try again.");
+      alert('There was an error in logging you in.  Message: "' + e.message + '"');
     });
   }
 
@@ -84,10 +84,24 @@ class LoginViewContainer extends React.Component {
     return false;
   }
 
+  login(e) {
+    var form = e.target,
+    elements = form.elements,
+    email = elements.namedItem("email").value,
+    password = elements.namedItem("password").value;
+    var loginPromise = this.authWithPassword(email, password);
+
+    this.handleAuthResponse(loginPromise);
+
+    e.preventDefault();
+    return false;
+  }
+
   render() {
     return (<LoginView controllers={{
       register: this.register.bind(this),
-      handleThirdPartyLogin: this.handleThirdPartyLogin.bind(this)
+      handleThirdPartyLogin: this.handleThirdPartyLogin.bind(this),
+      login: this.login.bind(this)
     }}/>);
   }
 }
